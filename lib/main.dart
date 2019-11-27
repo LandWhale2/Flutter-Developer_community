@@ -2,6 +2,8 @@ import 'package:developercommunity/Page/Board.dart';
 import 'package:developercommunity/Page/homepage.dart';
 import 'package:flutter/material.dart';
 
+import 'Page/Content.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -12,6 +14,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/home' : (BuildContext context) => HomePage(),
         '/board' : (BuildContext context) => Board(),
+        '/content' : (BuildContext context) => Content() ,
       },
       home: HomePage(),
     );
