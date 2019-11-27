@@ -1,3 +1,4 @@
+import 'package:developercommunity/Page/Board.dart';
 import 'package:developercommunity/Page/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: <String, WidgetBuilder>{
+        '/home' : (BuildContext context) => HomePage(),
+        '/board' : (BuildContext context) => Board(),
+      },
       home: HomePage(),
     );
   }

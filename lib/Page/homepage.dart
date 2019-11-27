@@ -1,3 +1,4 @@
+import 'package:developercommunity/Page/Board.dart';
 import 'package:flutter/material.dart';
 
 
@@ -67,23 +68,28 @@ class _HomePageState extends State<HomePage> {
     );
   }
   Widget Menu(BuildContext context, String content, Color color){
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width /1.2,
-        height: MediaQuery.of(context).size.height/15,
-        decoration: BoxDecoration(
-          border: Border.all(width: 0.3, color: Colors.white70),
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: color,
-        ),
-        child: Center(
-          child: Text(
-            content,
-            style: TextStyle(
-                fontSize: MediaQuery.of(context).textScaleFactor*20,
-                fontFamily: 'RIDI',
-                color: Colors.white
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).pushNamed('/board');
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          width: MediaQuery.of(context).size.width /1.2,
+          height: MediaQuery.of(context).size.height/15,
+          decoration: BoxDecoration(
+            border: Border.all(width: 0.3, color: Colors.white70),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+            color: color,
+          ),
+          child: Center(
+            child: Text(
+              content,
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).textScaleFactor*20,
+                  fontFamily: 'RIDI',
+                  color: Colors.white
+              ),
             ),
           ),
         ),
