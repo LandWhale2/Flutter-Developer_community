@@ -43,17 +43,68 @@ class _BoardState extends State<Board> {
         decoration: BoxDecoration(
           border: Border.all(width: 0.3, color: Colors.white70),
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.black38,
+          color: Colors.black26,
         ),
-        child: Center(
-          child: Text(
-            content,
-            style: TextStyle(
-                fontSize: MediaQuery.of(context).textScaleFactor*20,
-                fontFamily: 'RIDI',
-                color: Colors.white
+        child: Column(
+          children: <Widget>[
+            Container(//내용
+              width: MediaQuery.of(context).size.width /1.2,
+              height: MediaQuery.of(context).size.height/18,
+              decoration: BoxDecoration(
+                color: Colors.white24,
+                border: Border(
+                  bottom: BorderSide(
+                    width: 0.4,
+                    color: Colors.white
+                  )
+                )
+              ),
+              child: Center(
+                child: Text(
+                  '백준 기초 알고리즘 및 자료구조 30선',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: MediaQuery.of(context).textScaleFactor*20,
+                    fontFamily: 'RIDI',
+                  ),
+                ),
+              ),
             ),
-          ),
+            Container(
+              width: MediaQuery.of(context).size.width /1.2,
+              height: MediaQuery.of(context).size.height/23,
+              child: Row(
+                children: <Widget>[
+                  SizedBox(width: 3,),
+                  Container(
+                    width: MediaQuery.of(context).size.width /3.5,
+                    child: Text(
+                      '닉네임부분',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: MediaQuery.of(context).textScaleFactor*17,
+                        fontFamily: 'RIDI',
+                      ),
+                    ),
+                  ),
+                  Container(//댓글부분만들려다가말았음
+                    width: MediaQuery.of(context).size.width /4,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width/3.5,
+                    child: Text(
+                      '2019년10월11일',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: MediaQuery.of(context).textScaleFactor*15,
+                        fontFamily: 'RIDI',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
