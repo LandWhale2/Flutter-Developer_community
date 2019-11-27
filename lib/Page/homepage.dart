@@ -54,9 +54,38 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),//메뉴
+                SizedBox(height: 10,),
+                Menu(context, '알고리즘 문제 모음', Colors.cyan),
+                Menu(context, '토이 프로젝트 추천', Colors.redAccent),
+                Menu(context, '기술 토론', Colors.indigo),
+                Menu(context, '잡담', Colors.green),
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+  Widget Menu(BuildContext context, String content, Color color){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width /1.2,
+        height: MediaQuery.of(context).size.height/15,
+        decoration: BoxDecoration(
+          border: Border.all(width: 0.3, color: Colors.white70),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: color,
+        ),
+        child: Center(
+          child: Text(
+            content,
+            style: TextStyle(
+                fontSize: MediaQuery.of(context).textScaleFactor*20,
+                fontFamily: 'RIDI',
+                color: Colors.white
+            ),
+          ),
         ),
       ),
     );
