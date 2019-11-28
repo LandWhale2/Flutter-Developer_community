@@ -38,7 +38,7 @@ class _ContentState extends State<Content> {
                 ),
                 SizedBox(height: 20,),
                 Container(
-                  width: MediaQuery.of(context).size.width /2.3,
+                  width: MediaQuery.of(context).size.width /2.1,
                   height: MediaQuery.of(context).size.height/8,
                   decoration: BoxDecoration(
                     border: Border.all(width: 0.3, color: Colors.white70),
@@ -68,6 +68,7 @@ class _ContentState extends State<Content> {
                             icon: Icon(Icons.comment,color: Colors.white,size: 15,),
                           ),
                         ],
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -146,7 +147,7 @@ class _ContentState extends State<Content> {
                   ),
                 ),
               ],
-            ),
+            ),//댓글부분
           ],
         ),
       ),

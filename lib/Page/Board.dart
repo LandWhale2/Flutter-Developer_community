@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Board extends StatefulWidget {
@@ -6,6 +9,19 @@ class Board extends StatefulWidget {
 }
 
 class _BoardState extends State<Board> {
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,12 +37,13 @@ class _BoardState extends State<Board> {
         child: Stack(
           children: <Widget>[
             Container(
-              color: Color.fromRGBO(0, 0, 10, 1),
+              color: Color.fromRGBO(0, 0, 11, 1),
             ),
             Column(
               children: <Widget>[
                 SizedBox(height: 20,),
-                Center(child: Feed(context))
+                Center(child: Feed(context)),
+                SizedBox(height: 10,),
               ],
             ),
           ],
