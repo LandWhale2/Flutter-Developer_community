@@ -18,4 +18,8 @@ class API{
 
     return Recipe.fromJson(data['Item']);
   }
+
+  Future<void> postdata(String data)async{
+    
+  }
 }
