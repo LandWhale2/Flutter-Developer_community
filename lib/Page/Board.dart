@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:developercommunity/Widget/mongo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -20,10 +21,11 @@ class _BoardState extends State<Board> {
     super.initState();
   }
 
-
-  asd(){
-
+  void asd()async{
+    print('aa');
+    dbHelper().datafind();
   }
+
 
 
 
@@ -63,7 +65,8 @@ class _BoardState extends State<Board> {
   Widget Feed(BuildContext context){
     return InkWell(
       onTap: (){
-        Navigator.of(context).pushNamed('/content');
+//        Navigator.of(context).pushNamed('/content');
+      asd();
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
