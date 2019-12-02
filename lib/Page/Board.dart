@@ -1,16 +1,14 @@
 import 'dart:async';
 
-import 'package:developercommunity/api.dart';
-import 'package:developercommunity/model/recipe.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Board extends StatefulWidget {
 
-  API api = API();
 
   @override
   _BoardState createState() => _BoardState();
+
 }
 
 class _BoardState extends State<Board> {
@@ -23,6 +21,9 @@ class _BoardState extends State<Board> {
   }
 
 
+  asd(){
+
+  }
 
 
 
@@ -49,20 +50,6 @@ class _BoardState extends State<Board> {
                 SizedBox(height: 20,),
                 Center(child: Feed(context)),
                 SizedBox(height: 10,),
-                FutureBuilder<Recipe>(
-                  future: widget.api.fetchRecipe('Western', 'Carbaonara'),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasData){
-                      Recipe recipe = snapshot.data;
-                      print('sd');
-                      return Container(child: Text(recipe.price.toString()),);
-                    }else{
-                      print('aa');
-                      return Container();
-                    }
-
-                  }
-                )
               ],
             ),
           ],
