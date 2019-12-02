@@ -56,10 +56,10 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),//메뉴
                 SizedBox(height: 10,),
-                Menu(context, '알고리즘 문제 모음', Colors.cyan),
-                Menu(context, '토이 프로젝트 추천', Colors.redAccent),
-                Menu(context, '기술 토론', Colors.indigo),
-                Menu(context, '잡담', Colors.green),
+                Menu(context, '알고리즘 문제 모음', Colors.cyan, 'algorithm'),
+                Menu(context, '토이 프로젝트 추천', Colors.redAccent, 'toy'),
+                Menu(context, '기술 토론', Colors.indigo, 'skilltalk'),
+                Menu(context, '잡담', Colors.green,'talk'),
               ],
             ),
           ],
@@ -67,10 +67,10 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  Widget Menu(BuildContext context, String content, Color color){
+  Widget Menu(BuildContext context, String title, Color color, String menu){
     return InkWell(
       onTap: (){
-        Navigator.of(context).pushNamed('/board');
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Board(title: title, menu: menu,)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
           ),
           child: Center(
             child: Text(
-              content,
+              title,
               style: TextStyle(
                   fontSize: MediaQuery.of(context).textScaleFactor*20,
                   fontFamily: 'RIDI',
