@@ -131,10 +131,10 @@ class _BoardState extends State<Board> {
                       ),
                     ),
                     Container(//댓글부분만들려다가말았음
-                      width: MediaQuery.of(context).size.width /4,
+                      width: MediaQuery.of(context).size.width /5,
                     ),
                     Container(
-                      width: MediaQuery.of(context).size.width/3.5,
+                      width: MediaQuery.of(context).size.width/3,
                       child: Text(
                         '2019년10월11일',
                         style: TextStyle(

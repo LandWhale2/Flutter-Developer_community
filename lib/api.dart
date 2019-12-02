@@ -20,6 +20,8 @@ class API{
   }
 
   Future<void> postdata(String data)async{
-    
+
   }
 }
+
+
