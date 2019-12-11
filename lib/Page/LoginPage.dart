@@ -114,25 +114,30 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget loginbutton(BuildContext context){
-    return Container(
-      height: MediaQuery.of(context).size.height / 20,
-      width: MediaQuery.of(context).size.width / 2.5,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [Colors.white, Colors.white]),
-        border: Border.all(width: 0.5),
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      child: Center(
-        child: Text(
-          '로그인',
-          style: TextStyle(
-            fontSize: MediaQuery.of(context).textScaleFactor*25,
-            color: Colors.black,
-            fontWeight: FontWeight.w800,
-            fontFamily: 'RIDI'
+    return InkWell(
+      onTap: (){
+        Navigator.of(context).pushNamed('/home');
+      },
+      child: Container(
+        height: MediaQuery.of(context).size.height / 20,
+        width: MediaQuery.of(context).size.width / 2.5,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              colors: [Colors.white, Colors.white]),
+          border: Border.all(width: 0.5),
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        child: Center(
+          child: Text(
+            '로그인',
+            style: TextStyle(
+              fontSize: MediaQuery.of(context).textScaleFactor*25,
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+              fontFamily: 'RIDI'
+            ),
           ),
         ),
       ),

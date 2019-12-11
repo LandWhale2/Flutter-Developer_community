@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:developercommunity/Page/WritePage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class Board extends StatefulWidget {
   String title, menu;
@@ -17,6 +19,7 @@ class Board extends StatefulWidget {
 class _BoardState extends State<Board> {
   String title, menu;
   _BoardState({Key key, @required this.title, @required this.menu});
+  
 
 
   @override
