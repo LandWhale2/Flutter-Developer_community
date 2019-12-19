@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                 ),//메뉴
                 SizedBox(height: 10,),
                 Menu(context, '알고리즘 문제 모음', Colors.cyan, 'algorithm'),
-                Menu(context, '토이 프로젝트 추천', Colors.redAccent, 'toy'),
+                Menu(context, '토이 프로젝트 추천', Colors.redAccent, 'projects'),
                 Menu(context, '기술 토론', Colors.indigo, 'skilltalk'),
                 Menu(context, '잡담', Colors.green,'talk'),
               ],

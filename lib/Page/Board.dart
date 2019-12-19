@@ -70,7 +70,7 @@ class _BoardState extends State<Board> {
             Column(
               children: <Widget>[
                 SizedBox(height: 20,),
-                Center(child: Feed(context)),
+                Expanded(child: Feed(context)),
                 SizedBox(height: 10,),
               ],
             ),
@@ -89,7 +89,7 @@ class _BoardState extends State<Board> {
 //      boardlist();
       },
       child: FutureBuilder(
-        future: getData('talk'),
+        future: getData(menu),
         builder: (context ,snapshot) {
 
           if(!snapshot.hasData){
@@ -99,8 +99,8 @@ class _BoardState extends State<Board> {
               itemCount:snapshot.data.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index){
-              var ds = snapshot.data;
-              if(ds[index]['content'] == null){
+              var ds = snapshot.data[index];
+              if(ds['content'] == null){
                 return Container();
               }
                 return Padding(
@@ -129,7 +129,7 @@ class _BoardState extends State<Board> {
                           ),
                           child: Center(
                             child: Text(
-                              (ds[index]['content'] != null)?ds[index]['content'].toString():'',
+                              (ds['content'] != null)?ds['content'].toString():'',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).textScaleFactor*20,
@@ -147,7 +147,7 @@ class _BoardState extends State<Board> {
                               Container(
                                 width: MediaQuery.of(context).size.width /3.5,
                                 child: Text(
-                                  '익명',
+                                  (ds['writer'] != null)?ds['writer'].toString():'',
                                   style: TextStyle(
                                     color: Colors.white70,
                                     fontSize: MediaQuery.of(context).textScaleFactor*17,
