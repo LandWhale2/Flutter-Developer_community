@@ -14,12 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
 
-  Future<String> getData() async{
-    http.Response response = await http.get(
-        Uri.encodeFull('http://127.0.0.1:8000/api/skilltalk/'),
-        headers: {"Accept": "application/json"});
-    print(utf8.decode(response.bodyBytes));
-  }
+
 
 
   @override
@@ -84,8 +79,7 @@ class _HomePageState extends State<HomePage> {
   Widget Menu(BuildContext context, String title, Color color, String menu){
     return InkWell(
       onTap: (){
-//        Navigator.push(context, MaterialPageRoute(builder: (context) => Board(title: title, menu: menu,)));
-      getData();
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Board(title: title, menu: menu,)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

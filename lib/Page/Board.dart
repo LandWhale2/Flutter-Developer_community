@@ -28,7 +28,16 @@ class _BoardState extends State<Board> {
     super.initState();
   }
 
+  Future getData(String topic) async{
+    http.Response response = await http.get(
+        Uri.encodeFull('http://ec2-15-164-211-101.ap-northeast-2.compute.amazonaws.com:8000/api/${topic}/'),
+        headers: {"Accept": "application/json"});
+    var utf8convert= utf8.decode(response.bodyBytes);//한글화
 
+    List data = json.decode(utf8convert);
+
+    return data;
+  }
 
 
 
@@ -80,8 +89,9 @@ class _BoardState extends State<Board> {
 //      boardlist();
       },
       child: FutureBuilder(
-        future: null,
+        future: getData('talk'),
         builder: (context ,snapshot) {
+
           if(!snapshot.hasData){
             return Container();
           }
@@ -90,7 +100,7 @@ class _BoardState extends State<Board> {
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index){
               var ds = snapshot.data;
-              if(ds['content'] == null){
+              if(ds[index]['content'] == null){
                 return Container();
               }
                 return Padding(
@@ -119,7 +129,7 @@ class _BoardState extends State<Board> {
                           ),
                           child: Center(
                             child: Text(
-                              (ds['content'] != null)?ds['content']:'',
+                              (ds[index]['content'] != null)?ds[index]['content'].toString():'',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: MediaQuery.of(context).textScaleFactor*20,
