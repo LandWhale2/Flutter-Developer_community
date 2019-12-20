@@ -1,4 +1,11 @@
+import 'dart:convert';
+
+import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -6,7 +13,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  SharedPreferences prefs;
   String _email, _password;
+
+  Future<String> SignIn() async {
+
+    if(_email != null && _password != null){
+      prefs = await SharedPreferences.getInstance();
+
+      String addr = '${ServerIp}auth/signin';
+      var response = await http.post(addr, body: {'email': _email, 'password': _password});
+      // 200 ok. 정상 동작임을 알려준다.
+      if(response.statusCode == 200){
+        var utf8convert= utf8.decode(response.bodyBytes);//한글화
+        Map data = json.decode(utf8convert);
+        print(data['data']);
+        await prefs.setString('email', data['data']['email']);
+        await prefs.setString('nickname', data['data']['nickname']);
+        await prefs.setInt('id', data['data']['id']);
+        await prefs.setString('token', data['data']['token']);
+        Fluttertoast.showToast(
+            msg: '로그인.',
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            gravity: ToastGravity.TOP
+        );
+        Navigator.of(context).pushNamed('/home');
+      }else{
+        Fluttertoast.showToast(
+            msg: utf8.decode(response.bodyBytes),
+            backgroundColor: Colors.white,
+            textColor: Colors.black,
+            gravity: ToastGravity.TOP
+        );
+        return null;
+      }
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) return '이메일을 입력해주세요';
-                  },
-                  onSaved: (input) => _email = input,
+                  onChanged: (input) => _email = input,
                   style: TextStyle(color: Colors.white),
                   decoration: InputDecoration(
                     icon: Icon(Icons.account_box, color: Colors.white),
@@ -95,10 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 child: TextFormField(
-                  validator: (input) {
-                    if (input.isEmpty) return '비밀 번호를 입력해주세요';
-                  },
-                  onSaved: (input) => _password = input,
+                  onChanged: (input) => _password = input,
                   style: TextStyle(color: Colors.white),
                   obscureText: true,
                   decoration: InputDecoration(
@@ -121,7 +159,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget loginbutton(BuildContext context){
     return InkWell(
       onTap: (){
-        Navigator.of(context).pushNamed('/home');
+        SignIn();
       },
       child: Container(
         height: MediaQuery.of(context).size.height / 20,
