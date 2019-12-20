@@ -1,4 +1,5 @@
 import 'package:developercommunity/Page/Board.dart';
+import 'package:developercommunity/Page/SignUpPage.dart';
 import 'package:developercommunity/Page/WritePage.dart';
 import 'package:developercommunity/Page/homepage.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         '/board' : (BuildContext context) => Board(),
         '/content' : (BuildContext context) => Content() ,
         '/write' : (BuildContext context) => WritePage() ,
+        '/signup' : (BuildContext context) => SignUpPage() ,
       },
       home: LoginPage(),
     );

@@ -27,12 +27,17 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: MediaQuery.of(context).size.height / 3,),
                   loginform(context),
                   SizedBox(height: MediaQuery.of(context).size.height / 35,),
-                  Text(
-                    '계정이 없으신가요 ? 계정을 만들어볼까요 ?',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'RIDI',
-                      fontSize: MediaQuery.of(context).textScaleFactor*15,
+                  InkWell(
+                    onTap: (){
+                      Navigator.of(context).pushNamed('/signup');
+                    },
+                    child: Text(
+                      '계정이 없으신가요 ? 계정을 만들어볼까요 ?',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'RIDI',
+                        fontSize: MediaQuery.of(context).textScaleFactor*15,
+                      ),
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height / 17,),

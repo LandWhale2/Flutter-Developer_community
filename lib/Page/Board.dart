@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:developercommunity/Page/WritePage.dart';
+import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -28,9 +29,9 @@ class _BoardState extends State<Board> {
     super.initState();
   }
 
-  Future getData(String topic) async{
+  Future GetBoardData(String topic) async{
     http.Response response = await http.get(
-        Uri.encodeFull('http://ec2-15-164-211-101.ap-northeast-2.compute.amazonaws.com:8000/api/${topic}/'),
+        Uri.encodeFull('${ServerIp}api/${topic}/'),
         headers: {"Accept": "application/json"});
     var utf8convert= utf8.decode(response.bodyBytes);//한글화
 
@@ -89,7 +90,7 @@ class _BoardState extends State<Board> {
 //      boardlist();
       },
       child: FutureBuilder(
-        future: getData(menu),
+        future: GetBoardData(menu),
         builder: (context ,snapshot) {
 
           if(!snapshot.hasData){
