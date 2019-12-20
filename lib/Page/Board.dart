@@ -50,7 +50,6 @@ class _BoardState extends State<Board> {
     return Scaffold(
       appBar: AppBar(
         title: Text(title, style: TextStyle(
-          fontFamily: '',
           fontSize: MediaQuery.of(context).textScaleFactor*25,
         ),),
         centerTitle: true,
