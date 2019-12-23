@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Content extends StatefulWidget {
@@ -18,6 +19,33 @@ class _ContentState extends State<Content> {
   int contentid;
   String menu;
   _ContentState({Key key, @required this.contentid, @required this.menu});
+
+  SharedPreferences prefs;
+
+  PostLike(String title, int userid, int postid)async{
+    String addr = '${ServerIp}like';
+
+    final Map<String, dynamic> activityData = {
+      'title': title,
+      'postid': postid,
+      'userid': userid
+    };
+
+    var response = await http.post(addr, body: json.encode(activityData));
+    // 200 ok. 정상 동작임을 알려준다.
+    if(response.statusCode == 200){
+      print(response.body);
+      setState(() {
+
+      });
+    }else{
+      print(response.body);
+      setState(() {
+
+      });
+    }
+  }
+
 
   Future GetContentData() async{
     http.Response response = await http.get(
@@ -91,6 +119,10 @@ class _ContentState extends State<Content> {
                                       color: Colors.white
                                   ),
                                 ),
+                                onPressed: ()async{
+                                  prefs = await SharedPreferences.getInstance();
+                                  PostLike(ds['title'], prefs.getInt('id'), contentid);
+                                },
                                 icon: Icon(Icons.favorite,color: Colors.white,size: 15,),
                               ),
                               FlatButton.icon(
@@ -108,7 +140,7 @@ class _ContentState extends State<Content> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: <Widget>[
-                              Text('11', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
+                              Text((ds['likes'] != null)?ds['likes'].length.toString():'0', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
                               Text('1', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
                             ],
                           ),
