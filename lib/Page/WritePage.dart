@@ -1,5 +1,15 @@
 
+import 'dart:io';
+
+import 'package:developercommunity/utils/util.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class WritePage extends StatefulWidget {
   String menu;
@@ -15,7 +25,73 @@ class _WritePageState extends State<WritePage> {
   _WritePageState({Key key, @required this.menu});
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
   String content;
+  File ImageFile;
+  SharedPreferences prefs;
+  String imagepath;
+  http.MultipartFile multipartFile;
 
+
+  Future GetImage()async{
+    ImageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+
+  }
+
+  PostContent() async {
+    if(content != null){
+      prefs = await SharedPreferences.getInstance();
+      if(ImageFile != null){
+        imagepath = ImageFile.path;
+      }
+
+
+
+      String addr = '${ServerIp}api/${menu}/';
+      var postUri = Uri.parse(addr);
+
+      http.MultipartRequest request = http.MultipartRequest("POST", postUri);
+      if(ImageFile != null){
+        multipartFile = await http.MultipartFile.fromPath('image', imagepath);
+      }
+
+
+
+      request.fields['content'] = content;
+      request.fields['writer'] = prefs.getString('nickname');
+      if(ImageFile != null){
+        request.files.add(multipartFile);
+      }
+
+
+      request.send().then((result) async {
+        http.Response.fromStream(result).then((response){
+          if(response.statusCode == 200 || response.statusCode == 201){
+            print(response.body);
+            Navigator.of(context).pop();
+            return null;
+          }else{
+            print(response.body);
+            Fluttertoast.showToast(
+                msg: '오류',
+                backgroundColor: Colors.white,
+                textColor: Colors.black,
+                gravity: ToastGravity.TOP
+            );
+            return null;
+          }
+        });
+      });
+
+
+
+    }else{
+      Fluttertoast.showToast(
+          msg: '내용을 입력해주세요',
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          gravity: ToastGravity.TOP
+      );
+    }
+  }
 
 
   @override
@@ -41,11 +117,27 @@ class _WritePageState extends State<WritePage> {
                     ),),
                     InkWell(
                       onTap: (){
+                        PostContent();
                       },
                       child: Text('완료', style: TextStyle(
                           fontSize: MediaQuery.of(context).textScaleFactor*25,
                           color: Colors.white
                       ),),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: <Widget>[
+                    InkWell(
+                      onTap: () async {
+                        GetImage();
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          child: Icon(Icons.save, color: Colors.white,),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -71,16 +163,15 @@ class _WritePageState extends State<WritePage> {
                           hintText: '내용을 입력해주세요.',
                           border:InputBorder.none,
                         ),
-                        onSaved: (value)=> content = value,
-                        validator: (value){
-                          if(value.isEmpty){
-                            return '내용을 입력해주세요';
-                          }else{
-                            return null;
-                          }
-                        },
+                        onChanged: (value)=> content = value,
                       ),
                     ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    child: (ImageFile != null)?Image.file(ImageFile):Container(),
                   ),
                 ),
               ],

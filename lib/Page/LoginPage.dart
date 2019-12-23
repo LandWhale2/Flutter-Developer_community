@@ -23,7 +23,9 @@ class _LoginPageState extends State<LoginPage> {
 
       String addr = '${ServerIp}auth/signin';
       var response = await http.post(addr, body: {'email': _email, 'password': _password});
+
       // 200 ok. 정상 동작임을 알려준다.
+
       if(response.statusCode == 200){
         var utf8convert= utf8.decode(response.bodyBytes);//한글화
         Map data = json.decode(utf8convert);
