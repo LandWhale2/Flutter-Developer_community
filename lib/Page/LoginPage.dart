@@ -15,9 +15,9 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   SharedPreferences prefs;
   String _email, _password;
-
+  
+  
   Future<String> SignIn() async {
-
     if(_email != null && _password != null){
       prefs = await SharedPreferences.getInstance();
 
@@ -49,7 +49,22 @@ class _LoginPageState extends State<LoginPage> {
         return null;
       }
     }
+  }
+  
+  isSignedIn()async{
+    prefs = await SharedPreferences.getInstance();
+    if(prefs.getString('email') != null){
+      print(prefs.getString('email'));
+      Navigator.of(context).pushNamed('/home');
+    }
+  }
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isSignedIn();
   }
 
   @override

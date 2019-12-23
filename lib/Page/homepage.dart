@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-
+  SharedPreferences prefs;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
   }
   Widget Menu(BuildContext context, String title, Color color, String menu){
     return InkWell(
-      onTap: (){
+      onTap: ()async{
         Navigator.push(context, MaterialPageRoute(builder: (context) => Board(title: title, menu: menu,)));
       },
       child: Padding(
