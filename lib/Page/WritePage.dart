@@ -57,6 +57,7 @@ class _WritePageState extends State<WritePage> {
 
       request.fields['content'] = content;
       request.fields['writer'] = prefs.getString('nickname');
+//      request.fields['author'] = prefs.getInt('id');
       if(ImageFile != null){
         request.files.add(multipartFile);
       }

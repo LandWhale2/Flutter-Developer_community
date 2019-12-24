@@ -87,8 +87,6 @@ class _BoardState extends State<Board> {
   Widget Feed(BuildContext context){
     return InkWell(
       onTap: (){
-//        Navigator.of(context).pushNamed('/content');
-//      boardlist();
       },
       child: FutureBuilder(
         future: GetBoardData(menu),
