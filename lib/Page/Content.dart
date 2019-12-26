@@ -21,6 +21,7 @@ class _ContentState extends State<Content> {
   _ContentState({Key key, @required this.contentid, @required this.menu});
 
   SharedPreferences prefs;
+  final controller = TextEditingController();
 
   PostLike(String title, int userid, int postid)async{
     String addr = '${ServerIp}like';
@@ -62,6 +63,7 @@ class _ContentState extends State<Content> {
         'Content-type' : 'application/json',
         'Accept': 'application/json'};
 
+      controller.clear();
       var response = await http.post(addr, body: json.encode(activityData),headers: Header);
       // 200 ok. 정상 동작임을 알려준다.
       if(response.statusCode == 200){
@@ -69,13 +71,23 @@ class _ContentState extends State<Content> {
         setState(() {
 
         });
+
       }else{
         print(response.body);
         setState(() {
-
+          controller.clear();
         });
       }
     }
+  }
+
+  DeletePost(int commentid)async{
+    String url = '${ServerIp}api/${menu}/${contentid}/comment/${commentid}/';
+    print(url);
+
+    http.Response response = await http.delete(url);
+    setState(() {});
+    print(response.body);
   }
 
   GetCommentData()async{
@@ -106,6 +118,13 @@ class _ContentState extends State<Content> {
         ),),
         centerTitle: true,
         backgroundColor: Color.fromRGBO(0, 0, 10, 1),
+        actions: <Widget>[
+          InkWell(
+            onTap: (){
+
+            },
+              child: Icon(Icons.delete))
+        ],
       ),
       body: FutureBuilder(
         future: GetContentData(),
@@ -117,9 +136,6 @@ class _ContentState extends State<Content> {
           return Container(
             child: Stack(
               children: <Widget>[
-                Container(
-                  color: Color.fromRGBO(0, 0, 10, 1),
-                ),
                 ListView(
                   children: <Widget>[
                     Column(
@@ -225,7 +241,7 @@ class _ContentState extends State<Content> {
                                   style: TextStyle(
                                     fontSize:MediaQuery.of(context).textScaleFactor*20,
                                   fontFamily: 'RIDI', color: Colors.white),
-                                  controller: null,
+                                  controller: controller,
                                   maxLength: 100,
                                   maxLines: null,
                                   decoration: InputDecoration(
@@ -252,9 +268,6 @@ class _ContentState extends State<Content> {
                             },
                             child: Container(
                               width: MediaQuery.of(context).size.width/10,
-                              decoration: BoxDecoration(
-                                border: Border.all(width: 1)
-                              ),
                               child: Text('전송', style: TextStyle(color: Colors.white,fontSize: MediaQuery.of(context).textScaleFactor*18),),
                             ),
                           ),
@@ -268,6 +281,7 @@ class _ContentState extends State<Content> {
           );
         }
       ),
+      backgroundColor: Colors.black,
     );
   }
 
@@ -285,76 +299,81 @@ class _ContentState extends State<Content> {
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext context, int index){
             var ds = snapshot.data[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width /1.2,
+              return InkWell(
+                onDoubleTap: (){
+                  DeletePost(ds['id']);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width /1.2,
 //          height: MediaQuery.of(context).size.height/10,
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 0.3, color: Colors.white70),
-                    borderRadius: BorderRadius.all(Radius.circular(10)),
-                    color: Colors.black26,
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      Container(//내용
-                        width: MediaQuery.of(context).size.width /1.2,
+                    decoration: BoxDecoration(
+                      border: Border.all(width: 0.3, color: Colors.white70),
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      color: Colors.black26,
+                    ),
+                    child: Column(
+                      children: <Widget>[
+                        Container(//내용
+                          width: MediaQuery.of(context).size.width /1.2,
 //                height: MediaQuery.of(context).size.height/18,
-                        decoration: BoxDecoration(
-                            color: Colors.white24,
-                            border: Border(
-                                bottom: BorderSide(
-                                    width: 0.4,
-                                    color: Colors.white
-                                )
-                            )
-                        ),
-                        child: Center(
-                          child: Text(
-                            (ds['content']!=null)?ds['content']:'',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: MediaQuery.of(context).textScaleFactor*20,
-                              fontFamily: 'RIDI',
+                          decoration: BoxDecoration(
+                              color: Colors.white24,
+                              border: Border(
+                                  bottom: BorderSide(
+                                      width: 0.4,
+                                      color: Colors.white
+                                  )
+                              )
+                          ),
+                          child: Center(
+                            child: Text(
+                              (ds['content']!=null)?ds['content']:'',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: MediaQuery.of(context).textScaleFactor*20,
+                                fontFamily: 'RIDI',
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width /1.2,
-                        height: MediaQuery.of(context).size.height/23,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 3,),
-                            Container(
-                              width: MediaQuery.of(context).size.width /3.5,
-                              child: Text(
-                                (ds['writer'] != null)?ds['writer']:'',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: MediaQuery.of(context).textScaleFactor*17,
-                                  fontFamily: 'RIDI',
+                        Container(
+                          width: MediaQuery.of(context).size.width /1.2,
+                          height: MediaQuery.of(context).size.height/23,
+                          child: Row(
+                            children: <Widget>[
+                              SizedBox(width: 3,),
+                              Container(
+                                width: MediaQuery.of(context).size.width /3.5,
+                                child: Text(
+                                  (ds['writer'] != null)?ds['writer']:'',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: MediaQuery.of(context).textScaleFactor*17,
+                                    fontFamily: 'RIDI',
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(//댓글부분만들려다가말았음
-                              width: MediaQuery.of(context).size.width /4,
-                            ),
-                            Container(
-                              width: MediaQuery.of(context).size.width/3.5,
-                              child: Text(
-                                '2019년10월11일',
-                                style: TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: MediaQuery.of(context).textScaleFactor*15,
-                                  fontFamily: 'RIDI',
+                              Container(//댓글부분만들려다가말았음
+                                width: MediaQuery.of(context).size.width /4,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width/3.5,
+                                child: Text(
+                                  '2019년10월11일',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: MediaQuery.of(context).textScaleFactor*15,
+                                    fontFamily: 'RIDI',
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               );

@@ -66,9 +66,6 @@ class _BoardState extends State<Board> {
       body: Container(
         child: Stack(
           children: <Widget>[
-            Container(
-              color: Color.fromRGBO(0, 0, 11, 1),
-            ),
             Column(
               children: <Widget>[
                 SizedBox(height: 20,),
@@ -79,6 +76,7 @@ class _BoardState extends State<Board> {
           ],
         ),
       ),
+      backgroundColor: Colors.black,
     );
   }
 

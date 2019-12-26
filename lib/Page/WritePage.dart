@@ -43,8 +43,6 @@ class _WritePageState extends State<WritePage> {
         imagepath = ImageFile.path;
       }
 
-
-
       String addr = '${ServerIp}api/${menu}/';
       var postUri = Uri.parse(addr);
 

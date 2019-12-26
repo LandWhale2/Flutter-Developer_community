@@ -12,12 +12,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
 
-  String email, password, password2, nickname;
+  String _email, _password, _password2, _nickname;
   String tmp;
 
   Future<String> EmailCheck() async {
     String addr = '${ServerIp}auth/check';
-    var response = await http.post(addr, body: {'email': email});
+    var response = await http.post(addr, body: {'email': _email});
     // 200 ok. 정상 동작임을 알려준다.
     if(response.statusCode == 200){
       print(utf8.decode(response.bodyBytes));
@@ -39,13 +39,13 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   SignUp() async {
-    if(email != null && nickname != null && password != null && password2 != null){
-      if(password == password2){
+    if(_email != null && _nickname != null && _password != null && _password2 != null){
+      if(_password == _password2){
         String addr = '${ServerIp}auth/signup';
         var response = await http.post(addr, body: {
-          'email': email,
-          'password': password,
-          'nickname': nickname});
+          'email': _email,
+          'password': _password,
+          'nickname': _nickname});
         // 200 ok. 정상 동작임을 알려준다.
         if(response.statusCode == 200){
           print(utf8.decode(response.bodyBytes));
@@ -153,12 +153,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                   contentPadding: const EdgeInsets.only(
                                       top: 15, right: 30, bottom: 0, left: 5),
                                 ),
-                                onChanged: (value) => email = value,
+                                onChanged: (value) => _email = value,
                               ),
                             ),//이메일
                           InkWell(
                             onTap: (){
-                              if(email != null){
+                              if(_email != null){
                                 EmailCheck().then((s){
                                   setState(() {
                                     tmp = s;
@@ -231,7 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             contentPadding: const EdgeInsets.only(
                                 top: 15, right: 30, bottom: 0, left: 5),
                           ),
-                          onChanged: (value) => nickname = value,
+                          onChanged: (value) => _nickname = value,
                         ),
                       ),
                     ),//닉네임
@@ -261,7 +261,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             contentPadding: const EdgeInsets.only(
                                 top: 15, right: 30, bottom: 0, left: 5),
                           ),
-                          onChanged: (value) => password = value,
+                          onChanged: (value) => _password = value,
                         ),
                       ),
                     ),//비밀번호
@@ -291,7 +291,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             contentPadding: const EdgeInsets.only(
                                 top: 15, right: 30, bottom: 0, left: 5),
                           ),
-                          onChanged: (value) => password2 = value,
+                          onChanged: (value) => _password2 = value,
                         ),
                       ),
                     ),//비밀번호 재입력
