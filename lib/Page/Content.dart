@@ -110,6 +110,7 @@ class _ContentState extends State<Content> {
 
   @override
   Widget build(BuildContext context) {
+    print(contentid);
     return Scaffold(
       appBar: AppBar(
         title: Text('글', style: TextStyle(
