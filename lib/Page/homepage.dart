@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:developercommunity/Page/Board.dart';
+import 'package:developercommunity/Page/ChatPage.dart';
 import 'package:developercommunity/Page/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -30,10 +31,10 @@ class _HomePageState extends State<HomePage> {
                 children: <Widget>[
                   SizedBox(height: MediaQuery.of(context).size.height/15,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(left: 30),
+                        padding: const EdgeInsets.only(left: 0),
                         child: Container(
                           child: Text(
                             '추천',
@@ -47,10 +48,28 @@ class _HomePageState extends State<HomePage> {
                       ),
                       InkWell(
                         onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 0),
+                          child: Container(
+                            child: Text(
+                              '채팅',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).textScaleFactor*30,
+                                color: Colors.white,
+                                fontFamily: 'RIDI',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context) => ProfilePage()));
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 30),
+                          padding: const EdgeInsets.only(right: 0),
                           child: Container(
                             child: Text(
                               '내 정보',

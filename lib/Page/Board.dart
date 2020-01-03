@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:developercommunity/Page/WritePage.dart';
+import 'package:developercommunity/utils/REST_API.dart';
 import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,14 +35,13 @@ class _BoardState extends State<Board> {
   Future GetBoardData(String topic) async{
     http.Response response = await http.get(
         Uri.encodeFull('${ServerIp}api/${topic}/'),
-        headers: {"Accept": "application/json"});
+        headers: Header);
     var utf8convert= utf8.decode(response.bodyBytes);//한글화
 
     List data = json.decode(utf8convert);
 
     return data;
   }
-
 
 
 
@@ -185,3 +185,5 @@ class _BoardState extends State<Board> {
     );
   }
 }
+
+

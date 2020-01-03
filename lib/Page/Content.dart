@@ -59,9 +59,7 @@ class _ContentState extends State<Content> {
         'post': contentid
       };
 
-      Map<String, String> Header = {
-        'Content-type' : 'application/json',
-        'Accept': 'application/json'};
+
 
       controller.clear();
       var response = await http.post(addr, body: json.encode(activityData),headers: Header);
