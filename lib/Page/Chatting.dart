@@ -58,8 +58,6 @@ class _ChattingState extends State<Chatting> {
 
 
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
