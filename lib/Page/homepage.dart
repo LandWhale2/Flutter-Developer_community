@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:developercommunity/Page/Board.dart';
 import 'package:developercommunity/Page/ChatPage.dart';
+import 'package:developercommunity/Page/PaymentPage.dart';
 import 'package:developercommunity/Page/ProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -82,6 +83,32 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height/30,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      InkWell(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentPage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 0),
+                          child: Container(
+                            child: Text(
+                              '스토어',
+                              style: TextStyle(
+                                fontSize: MediaQuery.of(context).textScaleFactor*30,
+                                color: Colors.white,
+                                fontFamily: 'RIDI',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 90,),
+                      SizedBox(width: 90,),
                     ],
                   ),//추천
                   SizedBox(height: 30,),
