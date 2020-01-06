@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -13,6 +14,7 @@ class Chatting extends StatefulWidget {
 
 class _ChattingState extends State<Chatting> {
   int peerId, myid;
+  StreamController messageController;
   String peernickname, mynickname;
   TextEditingController textEditingController = TextEditingController();
   _ChattingState({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname});
@@ -30,18 +32,25 @@ class _ChattingState extends State<Chatting> {
       var response = await http.post(addr, body: json.encode(activityData),headers: Header);
       // 200 ok. 정상 동작임을 알려준다.
       if(response.statusCode == 200){
-        print(response.body);
+//        print(response.body);
         setState(() {
         });
 
       }else{
-        print(response.body);
+//        print(response.body);
         setState(() {
         });
       }
     }else{
       print('no');
     }
+  }
+
+  loadMessage()async{
+    GetMessage(myid, peerId).then((res)async{
+      messageController.add(res);
+      return res;
+    });
   }
 
 
@@ -54,6 +63,17 @@ class _ChattingState extends State<Chatting> {
     List data = json.decode(utf8convert);
     return data;
 
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    messageController = StreamController();
+//    Timer.periodic(Duration(seconds: 1), (_){
+//      loadMessage();
+//    });
+    loadMessage();
+    super.initState();
   }
 
 
@@ -79,19 +99,33 @@ class _ChattingState extends State<Chatting> {
   }
 
   Widget buildItem(var ds){
-    return Container(
-      child: Text(
-          (ds['message'] != null)? ds['message']: '',style: TextStyle(color: Colors.white),
-      ),
+    return (ds['sender'] == mynickname)?Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          child: Text(
+              (ds['message'] != null)? ds['message']: '',style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
+    ):Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          child: Text(
+            (ds['message'] != null)? ds['message']: '',style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ],
     );
   }
 
 
   buildListMessage() {
     return Flexible(
-        child:FutureBuilder(
-              future: GetMessage(myid, peerId),
-              builder: (context, snapshot){
+        child:StreamBuilder(
+              stream: messageController.stream,
+              builder: (BuildContext context,AsyncSnapshot snapshot){
                 if(!snapshot.hasData){
                   return Container();
                 }
