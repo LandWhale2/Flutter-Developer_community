@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:developercommunity/Page/Chatting.dart';
+import 'package:developercommunity/Page/sockettest.dart';
 import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:web_socket_channel/io.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -41,7 +43,8 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Color.fromRGBO(0, 0, 10, 1),
         actions: <Widget>[
           InkWell(onTap: (){
-//            Navigator.push(context, MaterialPageRoute(builder: (context) => WritePage(menu: menu,)));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SocketTest(title: 'dd',
+            channel: IOWebSocketChannel.connect('ws://echo.websocket.org'),)));
           },
               child: Icon(Icons.assignment_ind))
         ],
@@ -80,7 +83,10 @@ class _ChatPageState extends State<ChatPage> {
       onTap: () async {
         prefs = await SharedPreferences.getInstance();
         Navigator.push(context, MaterialPageRoute(builder: (context) =>
-            Chatting(peerId: peerid, peernickname: username,myid: prefs.getInt('id'),mynickname: prefs.getString('nickname'),)));
+            Chatting(peerId: peerid,
+              peernickname: username,
+              myid: prefs.getInt('id'),
+              mynickname: prefs.getString('nickname'),)));
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),

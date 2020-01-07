@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:developercommunity/utils/util.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 
 class Chatting extends StatefulWidget {
   int peerId, myid;
   String peernickname,mynickname;
-  Chatting({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname}):super(key:key);
+
+  Chatting({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname,}):super(key:key);
   @override
   _ChattingState createState() => _ChattingState(peerId: peerId, peernickname: peernickname,myid: myid, mynickname: mynickname);
 }
@@ -16,6 +19,7 @@ class _ChattingState extends State<Chatting> {
   int peerId, myid;
   StreamController messageController;
   String peernickname, mynickname;
+
   TextEditingController textEditingController = TextEditingController();
   _ChattingState({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname});
 
