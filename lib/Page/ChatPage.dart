@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
         actions: <Widget>[
           InkWell(onTap: (){
             Navigator.push(context, MaterialPageRoute(builder: (context) => SocketTest(title: 'dd',
-            channel: IOWebSocketChannel.connect('ws://echo.websocket.org'),)));
+            channel: IOWebSocketChannel.connect('ws://127.0.0.1:8000/ws/chatting/1/'),)));
           },
               child: Icon(Icons.assignment_ind))
         ],
@@ -98,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
           height: MediaQuery
               .of(context)
               .size
-              .height / 10,
+              .height / 8,
           decoration: BoxDecoration(
             border: Border.all(width: 0.3, color: Colors.white70),
             borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -165,7 +165,7 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                       ),
                     ),
-                    Container( //댓글부분만들려다가말았음
+                    Container(
                       width: MediaQuery
                           .of(context)
                           .size

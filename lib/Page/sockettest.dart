@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -32,14 +34,29 @@ class _SocketTestState extends State<SocketTest> {
                 decoration: InputDecoration(labelText: 'Send a message'),
               ),
             ),
-            StreamBuilder(
-              stream: widget.channel.stream,
-              builder: (context, snapshot) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: Text(snapshot.hasData ? '${snapshot.data}' : ''),
-                );
-              },
+            SizedBox(
+              height: MediaQuery.of(context).size.height/15,
+              child: StreamBuilder(
+                stream: widget.channel.stream,
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData){
+                    return Container();
+                  }
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index){
+                      var ds = snapshot.data;
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        child: Text(
+                            (ds != null)?ds:'',
+                        ),
+                      ),
+                    );
+                  });
+                },
+              ),
             )
           ],
         ),
@@ -54,7 +71,10 @@ class _SocketTestState extends State<SocketTest> {
 
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
-      widget.channel.sink.add(_controller.text);
+      print(_controller.text);
+      widget.channel.sink.add(json.encode({
+        'message': _controller.text
+      }));
     }
   }
 
