@@ -42,19 +42,11 @@ class _SocketTestState extends State<SocketTest> {
                   if(!snapshot.hasData){
                     return Container();
                   }
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index){
-                      var ds = snapshot.data;
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        child: Text(
-                            (ds != null)?ds:'',
-                        ),
-                      ),
-                    );
-                  });
+                  return Container(
+                    child: Text(
+                      (snapshot.data != null)?snapshot.data:'',
+                    ),
+                  );
                 },
               ),
             )
@@ -73,7 +65,8 @@ class _SocketTestState extends State<SocketTest> {
     if (_controller.text.isNotEmpty) {
       print(_controller.text);
       widget.channel.sink.add(json.encode({
-        'message': _controller.text
+        'message': _controller.text,
+        "sender" : "me"
       }));
     }
   }
