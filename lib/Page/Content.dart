@@ -21,6 +21,7 @@ class _ContentState extends State<Content> {
   _ContentState({Key key, @required this.contentid, @required this.menu});
 
   SharedPreferences prefs;
+  var commentnum;
   final controller = TextEditingController();
 
   PostLike(String title, int userid, int postid)async{
@@ -45,6 +46,17 @@ class _ContentState extends State<Content> {
 
       });
     }
+  }
+
+
+  GetCommentLength()async{
+    http.Response response = await http.get(
+        Uri.encodeFull('${ServerIp}api/${menu}/${contentid}/comment/'),
+        headers: {"Accept": "application/json"});
+    var res = json.decode(response.body);
+
+      commentnum = res.length;
+
   }
 
   PostComment()async{
@@ -107,8 +119,19 @@ class _ContentState extends State<Content> {
 
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if(mounted){
+      GetCommentLength();
+    }
+  }
+
+
+  @override
   Widget build(BuildContext context) {
-    print(contentid);
+    GetCommentLength();
     return Scaffold(
       appBar: AppBar(
         title: Text('글', style: TextStyle(
@@ -198,7 +221,7 @@ class _ContentState extends State<Content> {
                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                 children: <Widget>[
                                   Text((ds['likes'] != null)?ds['likes'].length.toString():'0', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
-                                  Text('1', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
+                                  Text((commentnum != null)?commentnum.toString():'0', style: TextStyle(color: Colors.white, fontSize: MediaQuery.of(context).textScaleFactor*20),),
                                 ],
                               ),
                             ],
@@ -381,4 +404,6 @@ class _ContentState extends State<Content> {
     );
 
   }
+
+
 }
