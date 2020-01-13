@@ -66,7 +66,8 @@ class _SocketTestState extends State<SocketTest> {
       print(_controller.text);
       widget.channel.sink.add(json.encode({
         'message': _controller.text,
-        "sender" : "me"
+        'handle' : 'me'
+//        "timestamp" : DateTime.now().millisecondsSinceEpoch,
       }));
     }
   }
