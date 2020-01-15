@@ -1,7 +1,9 @@
 import 'dart:convert';
 
+import 'package:developercommunity/utils/util.dart';
 import 'package:flutter/material.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+import 'package:http/http.dart' as http;
 
 class SocketTest extends StatefulWidget {
   final String title;
@@ -16,6 +18,57 @@ class SocketTest extends StatefulWidget {
 
 class _SocketTestState extends State<SocketTest> {
   TextEditingController _controller = TextEditingController();
+  
+  List<String> messages;
+  ScrollController scrollController;
+
+  Future GetMessage(int myid, int peerid) async{
+    http.Response response = await http.get(
+        Uri.encodeFull('${ServerIp}chat/api/messages/${myid}/${peerid}'),
+        headers: {"Accept": "application/json"});
+    var utf8convert= utf8.decode(response.bodyBytes);//한글화
+
+    List data = json.decode(utf8convert);
+    return data;
+  }
+
+  @override
+  void initState() {
+    //Initializing the message list
+    messages = List<String>();
+    //Initializing the TextEditingController and ScrollController
+//    textController = TextEditingController();
+//    scrollController = ScrollController();
+//    //Creating the socket
+//    socketIO = SocketIOManager().createSocketIO(
+//      'https://real-chat-1234.herokuapp.com',
+//      '/',
+//    );
+//    //Call init before doing anything with socket
+//    socketIO.init();
+//    //Subscribe to an event to listen to
+//    socketIO.subscribe('receive_message', (jsonData) {
+//      //Convert the JSON data received into a Map
+//      Map<String, dynamic> data = json.decode(jsonData);
+//      this.setState(() => messages.add(data['message']));
+//      scrollController.animateTo(
+//        scrollController.position.maxScrollExtent,
+//        duration: Duration(milliseconds: 600),
+//        curve: Curves.ease,
+//      );
+//    });
+//    //Connect to the socket
+//    socketIO.connect();
+
+
+//    widget.channel.stream.listen((message){
+//
+//    });
+    
+    super.initState();
+    
+    
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +119,8 @@ class _SocketTestState extends State<SocketTest> {
       print(_controller.text);
       widget.channel.sink.add(json.encode({
         'message': _controller.text,
-        'handle' : 'me'
+        'receiver' : 1,
+        'sender' : 2
 //        "timestamp" : DateTime.now().millisecondsSinceEpoch,
       }));
     }

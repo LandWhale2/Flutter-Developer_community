@@ -84,6 +84,7 @@ class _ChatPageState extends State<ChatPage> {
         prefs = await SharedPreferences.getInstance();
         Navigator.push(context, MaterialPageRoute(builder: (context) =>
             Chatting(peerId: peerid,
+              channel: IOWebSocketChannel.connect('ws://127.0.0.1:8000/ws/chatting/1/'),
               peernickname: username,
               myid: prefs.getInt('id'),
               mynickname: prefs.getString('nickname'),)));

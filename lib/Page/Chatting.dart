@@ -9,8 +9,9 @@ import 'package:web_socket_channel/web_socket_channel.dart';
 class Chatting extends StatefulWidget {
   int peerId, myid;
   String peernickname,mynickname;
+  final WebSocketChannel channel;
 
-  Chatting({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname,}):super(key:key);
+  Chatting({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname, @required this.channel}):super(key:key);
   @override
   _ChattingState createState() => _ChattingState(peerId: peerId, peernickname: peernickname,myid: myid, mynickname: mynickname);
 }
@@ -19,6 +20,7 @@ class _ChattingState extends State<Chatting> {
   int peerId, myid;
   StreamController messageController;
   String peernickname, mynickname;
+  List messages;
 
   TextEditingController textEditingController = TextEditingController();
   _ChattingState({Key key, @required this.peerId, @required this.peernickname, @required this.myid, @required this.mynickname});
@@ -50,12 +52,7 @@ class _ChattingState extends State<Chatting> {
     }
   }
 
-  loadMessage()async{
-    GetMessage(myid, peerId).then((res)async{
-      messageController.add(res);
-      return res;
-    });
-  }
+
 
 
   Future GetMessage(int myid, int peerid) async{
@@ -63,20 +60,42 @@ class _ChattingState extends State<Chatting> {
         Uri.encodeFull('${ServerIp}chat/api/messages/${myid}/${peerid}'),
         headers: {"Accept": "application/json"});
     var utf8convert= utf8.decode(response.bodyBytes);//한글화
+    return json.decode(utf8convert);
 
-    List data = json.decode(utf8convert);
-    return data;
+  }
 
+  void _sendMessage(){
+    if (textEditingController.text.isNotEmpty) {
+      print(textEditingController.text);
+
+        widget.channel.sink.add(json.encode({
+          'message': textEditingController.text,
+          'receiver' : 1,
+          'sender' : 2
+//        "timestamp" : DateTime.now().millisecondsSinceEpoch,
+        }));
+
+
+    }
   }
 
   @override
   void initState() {
     // TODO: implement initState
-    messageController = StreamController();
-//    Timer.periodic(Duration(seconds: 1), (_){
-//      loadMessage();
-//    });
-    loadMessage();
+    messages = List();
+    GetMessage(myid, peerId).then((data){
+      setState(() {
+        messages = data;
+      });
+    });
+
+    widget.channel.stream.listen((data){
+//      print(data);
+      Map<String, dynamic> datamap = json.decode(data);
+      messages.add(datamap);
+    });
+
+
     super.initState();
   }
 
@@ -127,23 +146,15 @@ class _ChattingState extends State<Chatting> {
 
   buildListMessage() {
     return Flexible(
-        child:StreamBuilder(
-              stream: messageController.stream,
-              builder: (BuildContext context,AsyncSnapshot snapshot){
-                if(!snapshot.hasData){
-                  return Container();
-                }
-                return ListView.builder(
-                    padding: EdgeInsets.all(10),
-                    itemCount: snapshot.data.length,
-                    reverse: true,
+        child:ListView.builder(
+            padding: EdgeInsets.all(10),
+            itemCount: messages.length,
+            reverse: true,
 //                controller: listScrollController,
-                    itemBuilder:(context, index){
-                      return buildItem(snapshot.data[index]);
-                    }
-                  );
-              },
-            ),
+            itemBuilder:(context, index){
+              return buildItem(messages[index]);
+            }
+          ),
         );
   }
 
@@ -168,7 +179,11 @@ class _ChattingState extends State<Chatting> {
               margin: EdgeInsets.symmetric(horizontal: 8),
               child: IconButton(
                 icon: Icon(Icons.send),
-                onPressed: () => onSendMessage(textEditingController.text),
+                onPressed: (){
+                  if(mounted){
+                    _sendMessage();
+                  }
+                },
                 color: Colors.black87,
               ),
             ),
@@ -181,6 +196,12 @@ class _ChattingState extends State<Chatting> {
       decoration: BoxDecoration(
           border: Border(top:BorderSide(color: Colors.grey, width: 0.5)), color: Colors.white),
     );
+  }
+
+  @override
+  void dispose() {
+    widget.channel.sink.close();
+    super.dispose();
   }
 
 
