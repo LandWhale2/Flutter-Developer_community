@@ -70,12 +70,10 @@ class _ChattingState extends State<Chatting> {
 
         widget.channel.sink.add(json.encode({
           'message': textEditingController.text,
-          'receiver' : 1,
-          'sender' : 2
+          'receiver' : peerId,
+          'sender' : myid
 //        "timestamp" : DateTime.now().millisecondsSinceEpoch,
         }));
-
-
     }
   }
 
@@ -92,7 +90,10 @@ class _ChattingState extends State<Chatting> {
     widget.channel.stream.listen((data){
 //      print(data);
       Map<String, dynamic> datamap = json.decode(data);
-      messages.add(datamap);
+      print(datamap);
+      setState(() {
+        messages.insert(0, datamap);
+      });
     });
 
 
@@ -122,12 +123,12 @@ class _ChattingState extends State<Chatting> {
   }
 
   Widget buildItem(var ds){
-    return (ds['sender'] == mynickname)?Row(
+    return (ds['sender'] == myid || ds['sender'] == mynickname)?Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
           child: Text(
-              (ds['message'] != null)? ds['message']: '',style: TextStyle(color: Colors.white),
+              (ds['message'] != null)? ds['message']: '',style: TextStyle(color: Colors.amber),
           ),
         ),
       ],
