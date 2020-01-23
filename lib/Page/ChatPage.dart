@@ -49,30 +49,32 @@ class _ChatPageState extends State<ChatPage> {
               child: Icon(Icons.assignment_ind))
         ],
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            FutureBuilder(
-              future: GetUserList(),
-              builder: (context, snapshot) {
-                if(!snapshot.hasData){
-                  return Container();
-                }
-
-                return ListView.builder(
-                itemCount:snapshot.data.length,
-                shrinkWrap: true,
-                itemBuilder: (BuildContext context, int index){
-                  var ds  = snapshot.data[index];
-                  if(!snapshot.hasData) {
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: <Widget>[
+              FutureBuilder(
+                future: GetUserList(),
+                builder: (context, snapshot) {
+                  if(!snapshot.hasData){
                     return Container();
                   }
-                  return UserList(context,ds['nickname'], ds['id']);
-                  }
-                );
-              }
-            ),
-          ],
+
+                  return ListView.builder(
+                  itemCount:snapshot.data.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index){
+                    var ds  = snapshot.data[index];
+                    if(!snapshot.hasData) {
+                      return Container();
+                    }
+                    return UserList(context,ds['nickname'], ds['id']);
+                    }
+                  );
+                }
+              ),
+            ],
+          ),
         ),
       ),
     );

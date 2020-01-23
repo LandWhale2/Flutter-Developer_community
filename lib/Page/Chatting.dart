@@ -65,6 +65,7 @@ class _ChattingState extends State<Chatting> {
   }
 
   void _sendMessage(){
+    
     if (textEditingController.text.isNotEmpty) {
       print(textEditingController.text);
 
