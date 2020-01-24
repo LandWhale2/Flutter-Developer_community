@@ -180,7 +180,7 @@ class _ChatPageState extends State<ChatPage> {
                           .size
                           .width / 3,
                       child: Text(
-                        (username != null)? username:'',
+                        (username != null)? username:'알 수 없음',
                         style: TextStyle(
                           color: Colors.white70,
                           fontSize: MediaQuery
