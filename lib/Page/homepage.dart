@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height/30,),
+                  SizedBox(height: MediaQuery.of(context).size.height/20,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
